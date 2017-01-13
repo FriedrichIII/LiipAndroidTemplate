@@ -1,0 +1,59 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.neenbedankt.android-apt'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        applicationId "ch.template"
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+    }
+    productFlavors {
+        mock {
+            //applicationId "com.example.myapp.demo"
+        }
+        full {
+            //applicationId "com.example.myapp.full"
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+final DAGGER_VERSION = '2.8'
+final ICEPICK_VERSION = '3.2.0'
+final BUTTERKNIFE_VERSION = '8.4.0'
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile "com.jakewharton:butterknife:${BUTTERKNIFE_VERSION}"
+    apt "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_VERSION}"
+    compile "com.google.dagger:dagger:${DAGGER_VERSION}"
+    apt "com.google.dagger:dagger-compiler:${DAGGER_VERSION}"
+    compile 'com.android.support:multidex:1.0.0'
+    compile 'com.jakewharton.timber:timber:4.5.0'
+    compile 'com.orhanobut:logger:1.15'
+    compile "com.annimon:stream:1.1.4"
+    compile "com.hannesdorfmann.fragmentargs:annotation:3.0.2"
+    apt "com.hannesdorfmann.fragmentargs:processor:3.0.2"
+    compile "frankiesardo:icepick:${ICEPICK_VERSION}" // findable thanks to gradle.build->maven { url "https://clojars.org/repo/" }
+    apt "frankiesardo:icepick-processor:${ICEPICK_VERSION}" // findable thanks to gradle.build->maven { url "https://clojars.org/repo/" }
+    compile 'com.hannesdorfmann.parcelableplease:annotation:1.0.2'
+    apt 'com.hannesdorfmann.parcelableplease:processor:1.0.2'
+}
