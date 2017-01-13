@@ -1,6 +1,6 @@
-#Android template project
+# Android template project
 
-The application is a shopping list creator.
+This project aims to group best practices and best libraries for Android development. The sample app is a shopping list creator.
 
 It demonstrate how to instantiate fragments with parameters and automatically save their parameters as well as their DTO state using **IcePick** and **FragmentArgs**.
 
