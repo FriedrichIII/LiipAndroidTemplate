@@ -11,13 +11,27 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="CREATE"/>
-    <ListView
-        android:id="@+id/dto_list"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        android:layout_alignParentTop="true"
-        android:layout_above="@id/create_button"
-        />
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/nothing_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="There is no shopping list yet"
+            android:textColor="@color/grey"/>
+        <ListView
+            android:id="@+id/dto_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:layout_alignParentTop="true"
+            android:layout_above="@id/create_button"
+            android:visibility="gone"
+            />
+    </LinearLayout>
+
 
 </RelativeLayout>

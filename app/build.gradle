@@ -37,6 +37,10 @@ android {
 final DAGGER_VERSION = '2.8'
 final ICEPICK_VERSION = '3.2.0'
 final BUTTERKNIFE_VERSION = '8.4.0'
+final RETROFIT_VERSION = '2.0.2'
+final OKHTTP_VERSION = '3.2.0'
+final RXJAVA_VERSION = '1.1.3'
+final RXANDROID_VERSION = '1.1.0'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -56,4 +60,13 @@ dependencies {
     apt "frankiesardo:icepick-processor:${ICEPICK_VERSION}" // findable thanks to gradle.build->maven { url "https://clojars.org/repo/" }
     compile 'com.hannesdorfmann.parcelableplease:annotation:1.0.2'
     apt 'com.hannesdorfmann.parcelableplease:processor:1.0.2'
+    compile "com.squareup.retrofit2:retrofit:${RETROFIT_VERSION}"
+    compile "com.squareup.retrofit2:retrofit-mock:${RETROFIT_VERSION}"
+    compile "com.squareup.retrofit2:converter-jackson:${RETROFIT_VERSION}"
+    compile "com.squareup.retrofit2:adapter-rxjava:${RETROFIT_VERSION}"
+    compile "com.squareup.okhttp3:logging-interceptor:${OKHTTP_VERSION}"
+    compile "com.squareup.okhttp3:okhttp:${OKHTTP_VERSION}"
+    compile "com.squareup.retrofit2:adapter-rxjava:${RETROFIT_VERSION}"
+    compile "io.reactivex:rxjava:${RXJAVA_VERSION}"
+    compile "io.reactivex:rxandroid:${RXANDROID_VERSION}"
 }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,17 +18,17 @@ import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs;
 import butterknife.BindView;
 import butterknife.OnClick;
 import ch.template.R;
-import ch.template.domain.TemplateDto;
+import ch.template.domain.ShoppingListDto;
 import ch.template.ui.common.BaseFragment;
 import icepick.State;
 import timber.log.Timber;
 
 
 @FragmentWithArgs
-public class TemplateCreateFragment extends BaseFragment {
+public class CreateFragment extends BaseFragment {
 
     @State
-    TemplateDto objectProducedByFragment;
+    ShoppingListDto objectProducedByFragment;
 
     @Arg
     String id;
@@ -40,6 +41,9 @@ public class TemplateCreateFragment extends BaseFragment {
 
     @BindView(R.id.item_to_add)
     EditText itemToAdd;
+
+    @BindView(R.id.save_button)
+    Button saveButton;
 
     private ArrayAdapter<String> listAdapter;
 
@@ -61,11 +65,11 @@ public class TemplateCreateFragment extends BaseFragment {
 
         if (savedInstanceState == null) {
             // only if it's not currently being restored (for example, on start)
-            objectProducedByFragment = new TemplateDto();
+            objectProducedByFragment = new ShoppingListDto();
         }
 
         listAdapter = new ArrayAdapter<>(getBaseActivity(), R.layout.item_list);
-        listAdapter.addAll(objectProducedByFragment.getList());
+        listAdapter.addAll(objectProducedByFragment.getItems());
     }
 
     @Nullable
@@ -89,16 +93,16 @@ public class TemplateCreateFragment extends BaseFragment {
         itemToAdd.setText("");
         listAdapter.add(toAdd);
         Timber.d("The item '%s' has been added !", toAdd);
-        Timber.d("TemplateDto is now %s !", objectProducedByFragment.toString());
+        Timber.d("ShoppingListDto is now %s !", objectProducedByFragment.toString());
     }
 
     @OnClick(R.id.save_button)
     void onClickSaveButton() {
+        saveButton.setEnabled(false);
         onSaveDtoListener.onClickSaveDto(this.objectProducedByFragment);
-        // getBaseActivity().popBackStack(); is also an alternative
     }
 
     public interface OnSaveDtoListener {
-        void onClickSaveDto(TemplateDto templateDto);
+        void onClickSaveDto(ShoppingListDto shoppingListDto);
     }
 }

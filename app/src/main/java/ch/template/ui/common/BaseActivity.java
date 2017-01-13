@@ -2,12 +2,12 @@ package ch.template.ui.common;
 
 import android.support.v7.app.AppCompatActivity;
 
-import ch.template.TemplateApp;
-import ch.template.wiring.TemplateComponent;
+import ch.template.ShoppingListApp;
+import ch.template.wiring.ShoppingListComponent;
 
 public class BaseActivity extends AppCompatActivity {
 
-    protected TemplateComponent getTemplateComponent() {
-        return ((TemplateApp)getApplication()).getTemplateComponent();
+    protected ShoppingListComponent getTemplateComponent() {
+        return ((ShoppingListApp)getApplication()).getShoppingListComponent();
     }
 }

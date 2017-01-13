@@ -8,25 +8,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import ch.template.R;
-import ch.template.domain.TemplateDto;
-import ch.template.service.TemplateService;
+import ch.template.domain.ShoppingListDto;
+import ch.template.domain.ShoppingListsModel;
+import ch.template.remote.ErrorHandlers;
 import ch.template.ui.common.BaseFragment;
 
-public class TemplateListFragment extends BaseFragment {
+public class ListFragment extends BaseFragment {
 
     @Inject
-    TemplateService templateService;
+    ShoppingListsModel shoppingListsModel;
+
+    @Inject
+    ErrorHandlers errorHandlers;
 
     @BindView(R.id.dto_list)
     ListView dtoList;
 
-    private ArrayAdapter<TemplateDto> dtoAdapter;
+    @BindView(R.id.nothing_label)
+    TextView nothingLabel;
+
+    private ArrayAdapter<ShoppingListDto> dtoAdapter;
 
     private OnClickCreateListener onClickCreateListener;
 
@@ -45,8 +53,17 @@ public class TemplateListFragment extends BaseFragment {
 
         getComponent().inject(this);
 
-        dtoAdapter = new ArrayAdapter<>(getBaseActivity(), R.layout.item_list, templateService.getElements());
+        dtoAdapter = new ArrayAdapter<>(getBaseActivity(), R.layout.item_list, shoppingListsModel.getElements());
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        boolean empty = this.shoppingListsModel.isEmpty();
+        this.nothingLabel.setVisibility(empty ? View.VISIBLE : View.GONE);
+        this.dtoList.setVisibility(empty ? View.GONE : View.VISIBLE);
+        dtoAdapter.notifyDataSetChanged();
     }
 
     @Nullable

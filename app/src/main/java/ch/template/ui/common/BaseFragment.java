@@ -10,9 +10,9 @@ import com.hannesdorfmann.fragmentargs.FragmentArgs;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import ch.template.TemplateApp;
+import ch.template.ShoppingListApp;
 import ch.template.ui.MainActivity;
-import ch.template.wiring.TemplateComponent;
+import ch.template.wiring.ShoppingListComponent;
 import icepick.Icepick;
 
 public class BaseFragment extends Fragment {
@@ -62,7 +62,7 @@ public class BaseFragment extends Fragment {
         }
     }
 
-    protected TemplateComponent getComponent() {
-        return ((TemplateApp)getBaseActivity().getApplication()).getTemplateComponent();
+    protected ShoppingListComponent getComponent() {
+        return ((ShoppingListApp)getBaseActivity().getApplication()).getShoppingListComponent();
     }
 }

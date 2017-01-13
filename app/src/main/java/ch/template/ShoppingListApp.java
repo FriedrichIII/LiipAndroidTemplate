@@ -5,14 +5,14 @@ import android.support.multidex.MultiDexApplication;
 import com.orhanobut.logger.Logger;
 
 import butterknife.ButterKnife;
-import ch.template.wiring.DaggerTemplateComponent;
-import ch.template.wiring.TemplateComponent;
-import ch.template.wiring.TemplateModule;
+import ch.template.wiring.DaggerShoppingListComponent;
+import ch.template.wiring.ShoppingListComponent;
+import ch.template.wiring.ShoppingListModule;
 import timber.log.Timber;
 
-public class TemplateApp extends MultiDexApplication {
+public class ShoppingListApp extends MultiDexApplication {
 
-    private TemplateComponent templateComponent;
+    private ShoppingListComponent shoppingListComponent;
 
     @Override
     public void onCreate() {
@@ -22,13 +22,13 @@ public class TemplateApp extends MultiDexApplication {
             Timber.plant(new LoggerTree());
         }
 
-        this.templateComponent = DaggerTemplateComponent.builder()
-            .templateModule(new TemplateModule())
+        this.shoppingListComponent = DaggerShoppingListComponent.builder()
+            .shoppingListModule(new ShoppingListModule(getBaseContext()))
             .build();
     }
 
-    public TemplateComponent getTemplateComponent() {
-        return templateComponent;
+    public ShoppingListComponent getShoppingListComponent() {
+        return shoppingListComponent;
     }
 
     private static class LoggerTree extends Timber.DebugTree {

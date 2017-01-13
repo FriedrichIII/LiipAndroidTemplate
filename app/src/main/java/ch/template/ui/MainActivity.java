@@ -5,20 +5,29 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import ch.template.R;
-import ch.template.domain.TemplateDto;
-import ch.template.service.TemplateService;
+import ch.template.domain.ShoppingListDto;
+import ch.template.domain.ShoppingListsModel;
+import ch.template.remote.DefaultSubscriber;
+import ch.template.remote.ErrorHandlers;
+import ch.template.remote.error.ErrorOutput;
+import ch.template.rx.RxOperations;
 import ch.template.ui.common.BaseActivity;
-import ch.template.ui.create.TemplateCreateFragment;
-import ch.template.ui.create.TemplateCreateFragmentBuilder;
-import ch.template.ui.list.TemplateListFragment;
+import ch.template.ui.create.CreateFragment;
+import ch.template.ui.create.CreateFragmentBuilder;
+import ch.template.ui.list.ListFragment;
 
-public class MainActivity extends BaseActivity implements TemplateCreateFragment.OnSaveDtoListener, TemplateListFragment.OnClickCreateListener {
+public class MainActivity extends BaseActivity implements ErrorOutput, CreateFragment.OnSaveDtoListener, ListFragment.OnClickCreateListener {
 
     @Inject
-    TemplateService templateService;
+    ShoppingListsModel shoppingListsModel;
+
+    @Inject
+    ErrorHandlers errorHandlers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +37,20 @@ public class MainActivity extends BaseActivity implements TemplateCreateFragment
 
         if (savedInstanceState == null) {
             // only if it's not currently being restored (for example, on start)
-            setListFragment();
+            this.shoppingListsModel.init()
+                    .compose(RxOperations.applySchedulers())
+                    .subscribe(new DefaultSubscriber<List<ShoppingListDto>>(errorHandlers.getErrorHandlers(), this, "Cannot load shopping lists"){
+                        @Override
+                        public void onNext(List<ShoppingListDto> o) {
+                            setListFragment();
+                        }
+                    });
+
         }
     }
 
     private void setListFragment() {
-        setNewFragment("my title", new TemplateListFragment(), false);
+        setNewFragment("my title", new ListFragment(), false);
     }
 
     public void setNewFragment(String title, Fragment fragment, boolean addToBackStack) {
@@ -59,17 +76,34 @@ public class MainActivity extends BaseActivity implements TemplateCreateFragment
     }
 
     @Override
-    public void onClickSaveDto(TemplateDto templateDto) {
-        templateService.add(templateDto);
-        new AlertDialog.Builder(this)
-                .setMessage(String.format("%s has been created", templateDto))
-                .show();
-        setListFragment();
+    public void onClickSaveDto(ShoppingListDto shoppingListDto) {
+        shoppingListsModel.add(shoppingListDto)
+                .compose(RxOperations.applySchedulers())
+            .subscribe(new DefaultSubscriber<Void>(errorHandlers.getErrorHandlers(), this, "Error saving shopping list"){
+                @Override
+                public void onNext(Void aVoid) {
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setMessage(String.format("%s has been created", shoppingListDto))
+                            .show();
+                    setListFragment();
+                }
+            });
+
 
     }
 
     @Override
     public void onClickCreateDto() {
-        setNewFragment("my title", TemplateCreateFragmentBuilder.newTemplateCreateFragment("xxx"), true);
+        setNewFragment("my title", CreateFragmentBuilder.newCreateFragment("xxx"), true);
+    }
+
+    @Override
+    public void showError(String title, String message) {
+        runOnUiThread(() -> new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(message)
+                .show()
+        );
+
     }
 }
