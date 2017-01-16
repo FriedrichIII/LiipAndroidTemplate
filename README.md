@@ -12,10 +12,10 @@ In order to easily change logging system, we use **Timber** as a logging entry p
 
 For API calls, we use **Retrofit 2** integrated with **RxJava**.
 
-Services are injected using **Dagger**. Dagger is configured to instanciate two different services configuration according the selection of one of the predefined flavours : *mock* and *full*.
+Services are injected using **Dagger**. Dagger is configured to instanciate two different services configuration according the selection of one of the **predefined flavours** : *mock* and *full*.
 The mock configuration provide a mocked *Retrofit* mock proxy that simulate behaviour of the network (async delay, failures, etc) to test error handling.
 
-A default implementation for error handling is implemented. More precisely, when retrofit generates network errors, we need to parse API errors. A ** CallAdapterFactory** encapsulating **RxJavaCallAdapterFactory** (RxJava Retrofit integration) allows to parse errors when http response code are not 2XX.
+A default implementation for error handling is implemented. One of the error handlers manage retrofit network errors and in case of API error, parse the error response. For that, we use a ** CallAdapterFactory** proxying **RxJavaCallAdapterFactory** (RxJava - Retrofit bridge).
 
 To be able to use **Java8 lambdas** and **method references**, the project build is configured to use **Jack compiler** and code is processed with the **Retrolambda** processor. We simulate Java8 streams using **Annimon Stream** library.
 
