@@ -14,6 +14,8 @@ import rx.Observable;
 import rx.functions.Func1;
 
 /**
+ * Credits to : http://bytes.babbel.com/en/articles/2016-03-16-retrofit2-rxjava-error-handling.html
+ * 
  * Has to be registered during retrofit creation:
  *
  * new Retrofit.Builder()
