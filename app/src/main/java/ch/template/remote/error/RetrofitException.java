@@ -9,6 +9,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 /**
+ * Credits to : http://bytes.babbel.com/en/articles/2016-03-16-retrofit2-rxjava-error-handling.html
+ *
  * Will be created by with RxErrorHandlingCallAdapterFactory
  *
  * To parse the error, in rxJava subscriber, do so:
