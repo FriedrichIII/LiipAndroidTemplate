@@ -1,0 +1,1 @@
+- remove Timber and Logger from release version using proguard (if possible)
