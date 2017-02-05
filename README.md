@@ -17,7 +17,7 @@ The mock configuration provide a mocked *Retrofit* mock proxy that simulate beha
 
 A default implementation for error handling is implemented. One of the error handlers manage retrofit network errors and in case of API error, parse the error response. For that, we use a **CallAdapterFactory** proxying **RxJavaCallAdapterFactory** (RxJava - Retrofit bridge).
 
-To be able to use **Java8 lambdas** and **method references**, the project build is configured to use **Jack compiler** and code is processed with the **Retrolambda** processor. We simulate Java8 streams using **Annimon Stream** library.
+To be able to use **Java8 lambdas** and **method references**, the code is processed with the **Retrolambda** processor. We simulate Java8 streams using **Annimon Stream** library.
 
 ### Libraries
 - Dagger
@@ -35,6 +35,6 @@ To be able to use **Java8 lambdas** and **method references**, the project build
 
 ### Gradle config
 - flavours with Dagger modules
-- java 8 + retrolambda processor + Annimon streams
+- java 8 + retrolambda processor
 - MultiDex application
 
