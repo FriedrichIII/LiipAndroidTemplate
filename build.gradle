@@ -14,6 +14,21 @@ buildscript {
     }
 }
 
+// PreDexing will make incremental build faster, but if the build is made from scratch (for example in a VM),
+// it will make it slower.
+// Use -PdisablePreDex option when compiling, if you wish to disable predexing
+project.ext.preDexLibs = !project.hasProperty('disablePreDex')
+
+subprojects {
+    project.plugins.whenPluginAdded { plugin ->
+        if ("com.android.build.gradle.AppPlugin".equals(plugin.class.name)) {
+            project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
+        } else if ("com.android.build.gradle.LibraryPlugin".equals(plugin.class.name)) {
+            project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
+        }
+    }
+}
+
 allprojects {
     repositories {
         jcenter()

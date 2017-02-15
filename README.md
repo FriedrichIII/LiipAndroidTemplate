@@ -37,4 +37,5 @@ To be able to use **Java8 lambdas** and **method references**, the code is proce
 - flavours with Dagger modules
 - java 8 + retrolambda processor
 - MultiDex application
+- Possibility to disable PreDexing using option -PdisablePreDex (make compilation faster when building from scratch, for example in a VM)
 
