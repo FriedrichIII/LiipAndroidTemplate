@@ -10,7 +10,8 @@ To associates UI components to field variable and listener methods, we use **But
 
 In order to easily change logging system, we use **Timber** as a logging entry point, which is integrated with **Android-Logger** for pretty printing.
 
-For API calls, we use **Retrofit 2** integrated with **RxJava**.
+For API calls, we use **Retrofit 2** integrated with **RxJava**. Jackson is used to convert DTO to json. A call adapter factory is setup with Retrofit
+in order to classify and parse network errors.
 
 Services are injected using **Dagger**. Dagger is configured to instanciate two different services configuration according the selection of one of the **predefined flavours** : *mock* and *full*.
 The mock configuration provide a mocked *Retrofit* mock proxy that simulate behaviour of the network (async delay, failures, etc) to test error handling.
