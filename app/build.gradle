@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "ch.template"
-        minSdkVersion 17
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -50,25 +50,37 @@ final RETROFIT_VERSION = '2.0.2'
 final OKHTTP_VERSION = '3.2.0'
 final RXJAVA_VERSION = '1.1.3'
 final RXANDROID_VERSION = '1.1.0'
+final ANDROID_SUPPORT_LIB_VERSION = '25.3.1'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile "com.jakewharton:butterknife:${BUTTERKNIFE_VERSION}"
-    apt "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_VERSION}"
-    compile "com.google.dagger:dagger:${DAGGER_VERSION}"
-    apt "com.google.dagger:dagger-compiler:${DAGGER_VERSION}"
-    compile 'com.android.support:multidex:1.0.0'
+
+    /* ANDROID */
+    compile "com.android.support:appcompat-v7:${ANDROID_SUPPORT_LIB_VERSION}"
+    compile 'com.android.support:multidex:1.0.1'
+
+    /* ANDROID TOOLS */
+    // logging
     compile 'com.jakewharton.timber:timber:4.5.0'
     compile 'com.orhanobut:logger:1.15'
-    compile "com.annimon:stream:1.1.4"
+    // ui
+    compile "com.jakewharton:butterknife:${BUTTERKNIFE_VERSION}"
+    apt "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_VERSION}"
+    // IoC
+    compile "com.google.dagger:dagger:${DAGGER_VERSION}"
+    apt "com.google.dagger:dagger-compiler:${DAGGER_VERSION}"
+
+    /* ANDROID LIFECYCLE */
+    // fragment arguments
     compile "com.hannesdorfmann.fragmentargs:annotation:3.0.2"
     apt "com.hannesdorfmann.fragmentargs:processor:3.0.2"
+    // state serialization
     compile "frankiesardo:icepick:${ICEPICK_VERSION}" // findable thanks to gradle.build->maven { url "https://clojars.org/repo/" }
     apt "frankiesardo:icepick-processor:${ICEPICK_VERSION}" // findable thanks to gradle.build->maven { url "https://clojars.org/repo/" }
     compile 'com.hannesdorfmann.parcelableplease:annotation:1.0.2'
     apt 'com.hannesdorfmann.parcelableplease:processor:1.0.2'
+
+    /* NETWORK */
     compile "com.squareup.retrofit2:retrofit:${RETROFIT_VERSION}"
     compile "com.squareup.retrofit2:retrofit-mock:${RETROFIT_VERSION}"
     compile "com.squareup.retrofit2:converter-jackson:${RETROFIT_VERSION}"
@@ -78,4 +90,9 @@ dependencies {
     compile "com.squareup.retrofit2:adapter-rxjava:${RETROFIT_VERSION}"
     compile "io.reactivex:rxjava:${RXJAVA_VERSION}"
     compile "io.reactivex:rxandroid:${RXANDROID_VERSION}"
+
+    /* OTHERS */
+    compile "com.annimon:stream:1.1.4"
+    testCompile 'junit:junit:4.12'
+
 }
