@@ -24,7 +24,7 @@ import rx.functions.Func1;
  * .build();
  *
  */
-public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory {
+public class RxErrorHandlingCallAdapterFactory<R> extends CallAdapter.Factory {
     private final RxJavaCallAdapterFactory original;
 
     private RxErrorHandlingCallAdapterFactory() {
@@ -36,15 +36,15 @@ public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory {
     }
 
     @Override
-    public CallAdapter<?> get(Type returnType, Annotation[] annotations, Retrofit retrofit) {
+    public CallAdapter<R, Observable<?>> get(Type returnType, Annotation[] annotations, Retrofit retrofit) {
         return new RxCallAdapterWrapper(retrofit, original.get(returnType, annotations, retrofit));
     }
 
-    private static class RxCallAdapterWrapper implements CallAdapter<Observable<?>> {
+    private static class RxCallAdapterWrapper<R> implements CallAdapter<R, Observable<?>> {
         private final Retrofit retrofit;
-        private final CallAdapter<?> wrapped;
+        private final CallAdapter<R, Observable<?>> wrapped;
 
-        public RxCallAdapterWrapper(Retrofit retrofit, CallAdapter<?> wrapped) {
+        public RxCallAdapterWrapper(Retrofit retrofit, CallAdapter<R, Observable<?>> wrapped) {
             this.retrofit = retrofit;
             this.wrapped = wrapped;
         }
@@ -56,7 +56,7 @@ public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory {
 
         @SuppressWarnings("unchecked")
         @Override
-        public <R> Observable<?> adapt(Call<R> call) {
+        public Observable<?> adapt(Call<R> call) {
             return ((Observable) wrapped.adapt(call)).onErrorResumeNext(new Func1<Throwable, Observable>() {
                 @Override
                 public Observable call(Throwable throwable) {
